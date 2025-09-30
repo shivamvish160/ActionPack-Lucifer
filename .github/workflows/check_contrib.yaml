@@ -1,0 +1,109 @@
+name: Check contribution
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  check:
+    if: github.repository == 'ServiceNowDevProgram/ActionPack'
+    runs-on: ubuntu-latest
+    name: Check PR
+    steps:
+      - name: Shallow checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      - name: Detect allowed file changes
+        id: changes
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        with:
+          base_sha: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
+
+          files: |
+            b812ceb69337a210633378917cba10bc/checksum.txt
+            b812ceb69337a210633378917cba10bc/update/sys_hub_action_type_definition_*.xml
+
+      - name: Handle inappropriate contribution
+        if: steps.changes.outputs.only_changed != 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const pr = context.payload.pull_request.number;
+            const label = 'non-compliant';
+
+            // Ensure label exists (create if missing)
+            try {
+              await github.rest.issues.getLabel({owner, repo, name: label});
+            } catch (e) {
+              if (e.status === 404) {
+                await github.rest.issues.createLabel({owner, repo, name: label, color: 'B66B02', description: 'PR violates CONTRIBUTING rules'});
+              } else {
+                throw e;
+              }
+            }
+
+            console.log(`Non-compliant: ${nonCompliant}`);
+            console.log(`All changed: ${allChanged}`);
+
+            const body = [
+              '🚫 **Unexpected files changed in PR**',
+              '',
+              'Thank you for your contribution. However, it seems that the file changes in this Pull Request are incorrect or invalid.',
+              'Please see the description of the unexpected file changes below. Contributions must be correct, valid, and align with the [CONTRIBUTING.md](CONTRIBUTING.md) for this repo.',
+              'This pull request modifies files *outside* the allowed paths/patterns.',
+              '',
+              '**Allowed patterns:**',
+              '```',
+              'b812ceb69337a210633378917cba10bc/checksum.txt',
+              'b812ceb69337a210633378917cba10bc/update/sys_hub_action_type_definition_*.xml',
+              '```',
+              '',
+              'Closing this for now. Once you make additional changes, feel free to re-open this Pull Request or create a new one.',
+              '',
+              'If you feel that this PR should be accepted in its current state, please reach out to Astrid Sapphire (SapphicFire) on GitHub, or in the SNDevs Slack Hacktoberfest channel.',
+            ].join('\n');
+
+            await github.rest.issues.addLabels({owner, repo, issue_number: pr, labels: [label]});
+            await github.rest.issues.createComment({owner, repo, issue_number: pr, body});
+            await github.rest.pulls.update({owner, repo, pull_number: pr, state: 'closed'});
+
+      - name: Fail if non-compliant
+        if: steps.changes.outputs.only_changed != 'true'
+        run: |
+          echo "Non-compliant file changes were made."
+          exit 1
+
+      - name: Handle appropriate contribution
+        if: steps.changes.outputs.only_changed == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const pr = context.payload.pull_request.number;
+
+            const body = [
+              '✅ **Valid PR for ActionPack**',
+              '',
+              'Thank you for your contribution. This PR complies with the [CONTRIBUTING.md](CONTRIBUTING.md).',
+              'A maintainer will review this shortly. In the meantime, Happy Hacking!',
+            ].join('\n');
+
+            await github.rest.issues.createComment({owner, repo, issue_number: pr, body});
+
+      - name: Succeed for compliant
+        if: steps.changes.outputs.only_changed == 'true'
+        run: |
+          echo "Compliant file changes were made."
+          exit 0
