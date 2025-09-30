@@ -1,6 +1,10 @@
+<img width="1280" height="250" alt="actionpack banner" src="https://github.com/user-attachments/assets/08926d1f-7bda-433f-91af-23fb0a2cde0b" />
+
 # ActionPack: An action-packed pack of Flow Actions!
 
 Welcome to ServiceNow's ActionPack community repository, managed by the Developer Program and the sndevs Slack community.
+
+> Interested in our other ServiceNow Hacktoberfest projects? See the main repository [here](https://github.com/ServiceNowDevProgram/Hacktoberfest) or see our official blog post [here](https://devlink.sn/hacktoberfest).
 
 ### Have you ever looked for an action in Workflow Studio, only to find that an appropriate utility or action is missing? 
 
