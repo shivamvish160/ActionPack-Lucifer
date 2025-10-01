@@ -52,6 +52,7 @@ jobs:
           files: |
             b812ceb69337a210633378917cba10bc/checksum.txt
             b812ceb69337a210633378917cba10bc/update/sys_hub_action_type_definition_*.xml
+            b812ceb69337a210633378917cba10bc/README.md
 
       - name: Handle inappropriate contribution
         if: steps.changes.outputs.only_changed != 'true'
