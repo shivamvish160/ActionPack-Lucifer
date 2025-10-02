@@ -31,7 +31,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>fc0cf4b153907610db6151a0a0490e2d</sys_id>
-        <sys_mod_count>154</sys_mod_count>
+        <sys_mod_count>159</sys_mod_count>
         <sys_name>Get GlideAggregate Count</sys_name>
         <sys_overrides/>
         <sys_package display_value="Action Pack" source="x_snc_actionpack">b812ceb69337a210633378917cba10bc</sys_package>
@@ -39,7 +39,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name>sys_hub_action_type_definition_fc0cf4b153907610db6151a0a0490e2d</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:59</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:18</sys_updated_on>
         <system_level>false</system_level>
         <type/>
     </sys_hub_action_type_definition>
@@ -522,7 +522,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>72caf95ec31cf2104e08bd43e401310a</sys_id>
-        <sys_mod_count>27</sys_mod_count>
+        <sys_mod_count>29</sys_mod_count>
         <sys_name/>
         <sys_overrides/>
         <sys_package/>
@@ -530,7 +530,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:58</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:17</sys_updated_on>
         <type>complex_object_collection</type>
     </sys_complex_object>
     <sys_hub_step_ext_output action="INSERT_OR_UPDATE">
@@ -873,14 +873,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-09-30 18:10:15</sys_created_on>
         <sys_id>cc7cf0f153907610db6151a0a0490e32</sys_id>
-        <sys_mod_count>80</sys_mod_count>
+        <sys_mod_count>82</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:58</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:17</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -1047,14 +1047,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-09-30 18:10:16</sys_created_on>
         <sys_id>407cf0f153907610db6151a0a0490ecc</sys_id>
-        <sys_mod_count>161</sys_mod_count>
+        <sys_mod_count>165</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:58</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:17</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -1172,15 +1172,15 @@
         <action_status_metadata_id display_value="Created 2025-09-30 11:10:16">507cf0f153907610db6151a0a0490ef1</action_status_metadata_id>
         <condition>{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}LIKEInvalid field name:^NQ{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}LIKEFlow Action Error:</condition>
         <dont_treat_as_error>false</dont_treat_as_error>
-        <label/>
+        <label>If user provides invalid column name or due to flow error</label>
         <order>1</order>
         <status>{"version":"1.0","complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"mapped\":\"{\\\"message\\\":\\\"{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}\\\"}\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":""}}}}</status>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-02 12:29:13</sys_created_on>
         <sys_id>3f8182d6c35cf2104e08bd43e4013153</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:01:12</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:11</sys_updated_on>
     </sys_hub_status_condition>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_fc0cf4b153907610db6151a0a0490e2d^sys_idNOT IN047cf0f153907610db6151a0a0490e32,3bae859ec318f2104e08bd43e401312b,8c7cf0f153907610db6151a0a0490e35"/>
     <sys_documentation action="INSERT_OR_UPDATE">
@@ -1328,17 +1328,17 @@
     <sys_hub_action_plan action="INSERT_OR_UPDATE">
         <action_id display_value="Get GlideAggregate Count">fc0cf4b153907610db6151a0a0490e2d</action_id>
         <plan>{"type":"PlanProxy","persistor":{"@class":".ChunkingPlanPersistor","table":"sys_hub_action_plan","id":"5f8cf4f153907610db6151a0a0490eae","name":"plan","plan_signature":null}}</plan>
-        <snapshot>bfb90e92c39cf2104e08bd43e4013146</snapshot>
+        <snapshot>fa7dced6c39cf2104e08bd43e40131a9</snapshot>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-09-30 18:10:45</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>5f8cf4f153907610db6151a0a0490eae</sys_id>
-        <sys_mod_count>21</sys_mod_count>
+        <sys_mod_count>22</sys_mod_count>
         <sys_overrides/>
         <sys_scope/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:05:00</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:19</sys_updated_on>
     </sys_hub_action_plan>
     <sys_hub_action_type_snapshot action="INSERT_OR_UPDATE">
         <access>public</access>
@@ -1859,7 +1859,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>bcda3d5ec31cf2104e08bd43e40131a3</sys_id>
-        <sys_mod_count>12</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name/>
         <sys_overrides/>
         <sys_package/>
@@ -1867,7 +1867,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:59</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:18</sys_updated_on>
         <type>complex_object_collection</type>
     </sys_complex_object>
     <sys_hub_step_ext_output action="INSERT_OR_UPDATE">
@@ -2384,14 +2384,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-09-30 18:10:44</sys_created_on>
         <sys_id>838cf4f153907610db6151a0a0490e7e</sys_id>
-        <sys_mod_count>43</sys_mod_count>
+        <sys_mod_count>45</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:59</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:18</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -2504,20 +2504,20 @@
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2025-09-30 18:10:44</sys_updated_on>
     </sys_hub_action_status_metadata>
-    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=4b8cf4f153907610db6151a0a0490e89^sys_idNOT INb7b90e92c39cf2104e08bd43e4013146"/>
+    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=4b8cf4f153907610db6151a0a0490e89^sys_idNOT IN7e7dced6c39cf2104e08bd43e40131a8"/>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-09-30 11:10:44">4b8cf4f153907610db6151a0a0490e89</action_status_metadata_id>
         <condition>{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}LIKEInvalid field name:^NQ{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}LIKEFlow Action Error:</condition>
         <dont_treat_as_error>false</dont_treat_as_error>
-        <label/>
+        <label>If user provides invalid column name or due to flow error</label>
         <order>1</order>
         <status>{"version":"1.0","complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"mapped\":\"{\\\"message\\\":\\\"{{step[67e628fc-09b1-48a4-a4ff-f903457f698a].__step_status__.message}}\\\"}\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":""}}}}</status>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-02 13:04:59</sys_created_on>
-        <sys_id>b7b90e92c39cf2104e08bd43e4013146</sys_id>
+        <sys_created_on>2025-10-02 13:21:18</sys_created_on>
+        <sys_id>7e7dced6c39cf2104e08bd43e40131a8</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-02 13:04:59</sys_updated_on>
+        <sys_updated_on>2025-10-02 13:21:18</sys_updated_on>
     </sys_hub_status_condition>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_fe8cf4f153907610db6151a0a0490e43^sys_idNOT IN3e8cf4f153907610db6151a0a0490e4d,841f95d6c398f2104e08bd43e401310a,f28cf4f153907610db6151a0a0490e4a"/>
     <sys_documentation action="INSERT_OR_UPDATE">
