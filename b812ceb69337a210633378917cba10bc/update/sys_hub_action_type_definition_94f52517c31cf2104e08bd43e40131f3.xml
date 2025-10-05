@@ -41,7 +41,7 @@ Identifying mismatches in multi-reference fields</description>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>94f52517c31cf2104e08bd43e40131f3</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>GlideList Comparator</sys_name>
         <sys_overrides/>
         <sys_package display_value="Action Pack" source="x_snc_actionpack">b812ceb69337a210633378917cba10bc</sys_package>
@@ -49,7 +49,7 @@ Identifying mismatches in multi-reference fields</description>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name>sys_hub_action_type_definition_94f52517c31cf2104e08bd43e40131f3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:53</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
         <system_level>false</system_level>
         <type/>
     </sys_hub_action_type_definition>
@@ -174,10 +174,10 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:14:35</sys_created_on>
         <sys_id>e9b82d1bc31cf2104e08bd43e4013184</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:40</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:50</sys_updated_on>
     </sys_hub_step_instance>
     <sys_variable_value action="delete_multiple" query="document_key=e9b82d1bc31cf2104e08bd43e4013184"/>
     <sys_variable_value action="INSERT_OR_UPDATE">
@@ -202,14 +202,27 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:14:35</sys_created_on>
         <sys_id>f9b82d1bc31cf2104e08bd43e40131ac</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:40</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:50</sys_updated_on>
         <value>(function execute(inputs, outputs) {&#13;
     var gr = new GlideRecord(inputs.table_name);&#13;
+    &#13;
+    // Check if record exists.&#13;
     if (!gr.get(inputs.record_sys_id)) {&#13;
-        outputs.error = "Record not found";&#13;
-        throw new Error('Record not found in table: ' + inputs.table_name);&#13;
+        outputs.error = "Error: Record with Sys ID '" + inputs.record_sys_id + "' not found in table '" + inputs.table_name + "'.";&#13;
+        throw new Error('Record not found in table: ' + inputs.tableName);&#13;
+    }&#13;
+&#13;
+    // Validate field names&#13;
+    if (!gr.isValidField(inputs.list_a_field)) {&#13;
+        outputs.error = "Error: Field '" + inputs.list_a_field + "' is not valid on table '" + inputs.table_name + "'.";&#13;
+        throw new Error('List A name is not forund: ' + inputs.list_a_field);&#13;
+    }&#13;
+&#13;
+    if (!gr.isValidField(inputs.list_b_field)) {&#13;
+        outputs.error = "Error: Field '" + inputs.list_b_field + "' is not valid on table '" + inputs.table_name + "'.";&#13;
+        throw new Error('List B name is not forund: ' + inputs.list_b_field);&#13;
     }&#13;
 &#13;
     function parseGlideList(glideListStr) {&#13;
@@ -240,18 +253,6 @@ Identifying mismatches in multi-reference fields</description>
         <variable display_value="Script">71aa7f6647032200b4fad7527c9a719b</variable>
     </sys_variable_value>
     <sys_element_mapping action="delete_multiple" query="id=e9b82d1bc31cf2104e08bd43e4013184"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>application</field>
-        <id>e9b82d1bc31cf2104e08bd43e4013184</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-05 13:14:35</sys_created_on>
-        <sys_id>69b82d1bc31cf2104e08bd43e40131ab</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:14:35</sys_updated_on>
-        <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
-        <value/>
-    </sys_element_mapping>
     <sys_element_mapping action="INSERT_OR_UPDATE">
         <field>list_a_field</field>
         <id>e9b82d1bc31cf2104e08bd43e4013184</id>
@@ -292,11 +293,11 @@ Identifying mismatches in multi-reference fields</description>
         <field>script</field>
         <id>e9b82d1bc31cf2104e08bd43e4013184</id>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-05 13:14:35</sys_created_on>
-        <sys_id>21b82d1bc31cf2104e08bd43e40131ac</sys_id>
+        <sys_created_on>2025-10-05 13:54:50</sys_created_on>
+        <sys_id>5be13197c35cf2104e08bd43e40131b6</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:14:35</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:50</sys_updated_on>
         <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
         <value/>
     </sys_element_mapping>
@@ -1565,14 +1566,14 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:14:35</sys_created_on>
         <sys_id>75b82d1bc31cf2104e08bd43e40131c7</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:51</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:56</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -1946,7 +1947,21 @@ Identifying mismatches in multi-reference fields</description>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2025-10-05 13:14:36</sys_updated_on>
     </sys_hub_action_status_metadata>
-    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=7db82d1bc31cf2104e08bd43e40131fa^sys_idNOT INaeee2953c35cf2104e08bd43e4013196"/>
+    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=7db82d1bc31cf2104e08bd43e40131fa^sys_idNOT IN11413d17c35cf2104e08bd43e40131bf,aeee2953c35cf2104e08bd43e4013196,d5413d17c35cf2104e08bd43e40131bf"/>
+    <sys_hub_status_condition action="INSERT_OR_UPDATE">
+        <action_status_metadata_id display_value="Created 2025-10-05 06:14:36">7db82d1bc31cf2104e08bd43e40131fa</action_status_metadata_id>
+        <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKEList A name is not forund:</condition>
+        <dont_treat_as_error>false</dont_treat_as_error>
+        <label>Input Field name for List A is not correct or not found in the table</label>
+        <order>2</order>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Input Field name for List A is not correct or not found in the table"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-05 13:51:58</sys_created_on>
+        <sys_id>11413d17c35cf2104e08bd43e40131bf</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-05 13:51:58</sys_updated_on>
+    </sys_hub_status_condition>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-05 06:14:36">7db82d1bc31cf2104e08bd43e40131fa</action_status_metadata_id>
         <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKERecord not found in table:</condition>
@@ -1960,6 +1975,20 @@ Identifying mismatches in multi-reference fields</description>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2025-10-05 13:41:41</sys_updated_on>
+    </sys_hub_status_condition>
+    <sys_hub_status_condition action="INSERT_OR_UPDATE">
+        <action_status_metadata_id display_value="Created 2025-10-05 06:14:36">7db82d1bc31cf2104e08bd43e40131fa</action_status_metadata_id>
+        <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKEList B name is not forund:</condition>
+        <dont_treat_as_error>false</dont_treat_as_error>
+        <label>Input Field name for List B is not correct or not found in the table</label>
+        <order>3</order>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Input Field name for List B is not correct or not found in the table"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-05 13:51:58</sys_created_on>
+        <sys_id>d5413d17c35cf2104e08bd43e40131bf</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-05 13:51:58</sys_updated_on>
     </sys_hub_status_condition>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_94f52517c31cf2104e08bd43e40131f3^sys_idNOT IN2db82d1bc31cf2104e08bd43e4013166,65b82d1bc31cf2104e08bd43e4013173,a1b82d1bc31cf2104e08bd43e401316f,edb82d1bc31cf2104e08bd43e401316a"/>
     <sys_documentation action="INSERT_OR_UPDATE">
@@ -2199,17 +2228,17 @@ Identifying mismatches in multi-reference fields</description>
     <sys_hub_action_plan action="INSERT_OR_UPDATE">
         <action_id display_value="GlideList Comparator">94f52517c31cf2104e08bd43e40131f3</action_id>
         <plan>{"type":"PlanProxy","persistor":{"@class":".ChunkingPlanPersistor","table":"sys_hub_action_plan","id":"bdfea953c35cf2104e08bd43e40131c0","name":"plan","plan_signature":null}}</plan>
-        <snapshot>e1fea953c35cf2104e08bd43e4013190</snapshot>
+        <snapshot>4df1b197c35cf2104e08bd43e4013120</snapshot>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:41:54</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>bdfea953c35cf2104e08bd43e40131c0</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_overrides/>
         <sys_scope/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:54</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:59</sys_updated_on>
     </sys_hub_action_plan>
     <sys_hub_action_type_snapshot action="INSERT_OR_UPDATE">
         <access>public</access>
@@ -2382,10 +2411,10 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:41:52</sys_created_on>
         <sys_id>5dfea953c35cf2104e08bd43e4013118</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:52</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
     </sys_hub_step_instance>
     <sys_variable_value action="delete_multiple" query="document_key=5dfea953c35cf2104e08bd43e4013118"/>
     <sys_variable_value action="INSERT_OR_UPDATE">
@@ -2410,14 +2439,27 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:41:52</sys_created_on>
         <sys_id>d9fea953c35cf2104e08bd43e401314e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:52</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
         <value>(function execute(inputs, outputs) {&#13;
     var gr = new GlideRecord(inputs.table_name);&#13;
+    &#13;
+    // Check if record exists.&#13;
     if (!gr.get(inputs.record_sys_id)) {&#13;
-        outputs.error = "Record not found";&#13;
-        throw new Error('Record not found in table: ' + inputs.table_name);&#13;
+        outputs.error = "Error: Record with Sys ID '" + inputs.record_sys_id + "' not found in table '" + inputs.table_name + "'.";&#13;
+        throw new Error('Record not found in table: ' + inputs.tableName);&#13;
+    }&#13;
+&#13;
+    // Validate field names&#13;
+    if (!gr.isValidField(inputs.list_a_field)) {&#13;
+        outputs.error = "Error: Field '" + inputs.list_a_field + "' is not valid on table '" + inputs.table_name + "'.";&#13;
+        throw new Error('List A name is not forund: ' + inputs.list_a_field);&#13;
+    }&#13;
+&#13;
+    if (!gr.isValidField(inputs.list_b_field)) {&#13;
+        outputs.error = "Error: Field '" + inputs.list_b_field + "' is not valid on table '" + inputs.table_name + "'.";&#13;
+        throw new Error('List B name is not forund: ' + inputs.list_b_field);&#13;
     }&#13;
 &#13;
     function parseGlideList(glideListStr) {&#13;
@@ -2448,18 +2490,6 @@ Identifying mismatches in multi-reference fields</description>
         <variable display_value="Script">71aa7f6647032200b4fad7527c9a719b</variable>
     </sys_variable_value>
     <sys_element_mapping action="delete_multiple" query="id=5dfea953c35cf2104e08bd43e4013118"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>application</field>
-        <id>5dfea953c35cf2104e08bd43e4013118</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-05 13:41:52</sys_created_on>
-        <sys_id>99fea953c35cf2104e08bd43e401314d</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:52</sys_updated_on>
-        <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
-        <value/>
-    </sys_element_mapping>
     <sys_element_mapping action="INSERT_OR_UPDATE">
         <field>list_a_field</field>
         <id>5dfea953c35cf2104e08bd43e4013118</id>
@@ -2500,11 +2530,11 @@ Identifying mismatches in multi-reference fields</description>
         <field>script</field>
         <id>5dfea953c35cf2104e08bd43e4013118</id>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-05 13:41:52</sys_created_on>
-        <sys_id>51fea953c35cf2104e08bd43e401314e</sys_id>
+        <sys_created_on>2025-10-05 13:54:58</sys_created_on>
+        <sys_id>01f1b197c35cf2104e08bd43e401310c</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:52</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
         <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
         <value/>
     </sys_element_mapping>
@@ -3860,14 +3890,14 @@ Identifying mismatches in multi-reference fields</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-05 13:41:53</sys_created_on>
         <sys_id>5dfea953c35cf2104e08bd43e4013168</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:53</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -4154,7 +4184,21 @@ Identifying mismatches in multi-reference fields</description>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2025-10-05 13:41:53</sys_updated_on>
     </sys_hub_action_status_metadata>
-    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=a9fea953c35cf2104e08bd43e401318f^sys_idNOT IN61fea953c35cf2104e08bd43e4013190"/>
+    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=a9fea953c35cf2104e08bd43e401318f^sys_idNOT IN05f1b197c35cf2104e08bd43e4013120,0df1b197c35cf2104e08bd43e401311f,81f1b197c35cf2104e08bd43e4013120"/>
+    <sys_hub_status_condition action="INSERT_OR_UPDATE">
+        <action_status_metadata_id display_value="Created 2025-10-05 06:41:53">a9fea953c35cf2104e08bd43e401318f</action_status_metadata_id>
+        <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKEList B name is not forund:</condition>
+        <dont_treat_as_error>false</dont_treat_as_error>
+        <label>Input Field name for List B is not correct or not found in the table</label>
+        <order>3</order>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Input Field name for List B is not correct or not found in the table"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-05 13:54:58</sys_created_on>
+        <sys_id>05f1b197c35cf2104e08bd43e4013120</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
+    </sys_hub_status_condition>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-05 06:41:53">a9fea953c35cf2104e08bd43e401318f</action_status_metadata_id>
         <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKERecord not found in table:</condition>
@@ -4163,11 +4207,25 @@ Identifying mismatches in multi-reference fields</description>
         <order>1</order>
         <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Record Not found in the selected Table"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-05 13:41:53</sys_created_on>
-        <sys_id>61fea953c35cf2104e08bd43e4013190</sys_id>
+        <sys_created_on>2025-10-05 13:54:58</sys_created_on>
+        <sys_id>0df1b197c35cf2104e08bd43e401311f</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-05 13:41:53</sys_updated_on>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
+    </sys_hub_status_condition>
+    <sys_hub_status_condition action="INSERT_OR_UPDATE">
+        <action_status_metadata_id display_value="Created 2025-10-05 06:41:53">a9fea953c35cf2104e08bd43e401318f</action_status_metadata_id>
+        <condition>{{step[5dd9f2b9-1f6b-4230-908a-9d9dde733f7a].__step_status__.message}}LIKEList A name is not forund:</condition>
+        <dont_treat_as_error>false</dont_treat_as_error>
+        <label>Input Field name for List A is not correct or not found in the table</label>
+        <order>2</order>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Input Field name for List A is not correct or not found in the table"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-05 13:54:58</sys_created_on>
+        <sys_id>81f1b197c35cf2104e08bd43e4013120</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-05 13:54:58</sys_updated_on>
     </sys_hub_status_condition>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_49fe6953c35cf2104e08bd43e40131f3^sys_idNOT IN15fe6953c35cf2104e08bd43e40131ff,1dfea953c35cf2104e08bd43e4013113,c1fe6953c35cf2104e08bd43e40131fb,d9fea953c35cf2104e08bd43e401310f"/>
     <sys_documentation action="INSERT_OR_UPDATE">
