@@ -31,7 +31,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>b739e818c360b2104e08bd43e4013139</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>Identify and Merge Duplicates</sys_name>
         <sys_overrides/>
         <sys_package display_value="Action Pack" source="x_snc_actionpack">b812ceb69337a210633378917cba10bc</sys_package>
@@ -39,7 +39,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name>sys_hub_action_type_definition_b739e818c360b2104e08bd43e4013139</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:18</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:48</sys_updated_on>
         <system_level>false</system_level>
         <type/>
     </sys_hub_action_type_definition>
@@ -140,10 +140,10 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:13:27</sys_created_on>
         <sys_id>a8c92898c360b2104e08bd43e401319f</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:18:07</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:45:45</sys_updated_on>
     </sys_hub_step_instance>
     <sys_variable_value action="delete_multiple" query="document_key=a8c92898c360b2104e08bd43e401319f"/>
     <sys_variable_value action="INSERT_OR_UPDATE">
@@ -168,11 +168,12 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:13:28</sys_created_on>
         <sys_id>64c92898c360b2104e08bd43e40131c0</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:18:07</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:45:45</sys_updated_on>
         <value>(function execute(inputs, outputs) {&#13;
     try {&#13;
+&#13;
 &#13;
         var tableName = inputs.table_name;&#13;
         var matchFields = inputs.match_fields.split(',').map(function(f) {&#13;
@@ -199,7 +200,7 @@
         gr.query();&#13;
 &#13;
         var seen = {};&#13;
-        var mergedPairs = [];&#13;
+        var flaggedPairs = [];&#13;
 &#13;
         while (gr.next()) {&#13;
             var key = matchFields.map(function(field) {&#13;
@@ -207,50 +208,30 @@
             }).join('|');&#13;
 &#13;
             if (seen[key]) {&#13;
-                var originalGR = new GlideRecord(tableName);&#13;
-                if (originalGR.get(seen[key])) {&#13;
-                    // Merge logic: prefer latest values&#13;
-                    matchFields.forEach(function(field) {&#13;
-                        var originalVal = originalGR.getValue(field);&#13;
-                        var newVal = gr.getValue(field);&#13;
-                        if (gr.sys_updated_on &gt; originalGR.sys_updated_on) {&#13;
-                            originalGR.setValue(field, newVal);&#13;
-                        }&#13;
-                    });&#13;
-&#13;
-                    originalGR.update();&#13;
-                    mergedPairs.push({ original: seen[key], merged: gr.sys_id.toString() });&#13;
-                    gr.deleteRecord();&#13;
-                } else {&#13;
-                    throw new Error("Original record not found for sys_id: " + seen[key]);&#13;
+                // Flag as duplicate&#13;
+                if (gr.isValidField('u_duplicate_of')) {&#13;
+                    gr.setValue('u_duplicate_of', seen[key]); // Reference to original&#13;
+                }else{&#13;
+                    throw new Error("As part of Action table needs to have u_duplicate_of field to flag duplicates");&#13;
                 }&#13;
+&#13;
+                gr.update();&#13;
+                flaggedPairs.push({ original: seen[key], flagged: gr.sys_id.toString() });&#13;
             } else {&#13;
                 seen[key] = gr.sys_id.toString();&#13;
             }&#13;
         }&#13;
 &#13;
-        outputs.merged_pairs = mergedPairs;&#13;
+        outputs.merged_pairs = flaggedPairs;&#13;
 &#13;
     } catch (err) {&#13;
-        gs.error("Duplicate Merge Error: " + err.message);&#13;
+        gs.error("Duplicate Flagging Error: " + err.message);&#13;
         outputs.error = err.message;&#13;
     }&#13;
 })(inputs, outputs);</value>
         <variable display_value="Script">71aa7f6647032200b4fad7527c9a719b</variable>
     </sys_variable_value>
     <sys_element_mapping action="delete_multiple" query="id=a8c92898c360b2104e08bd43e401319f"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>application</field>
-        <id>a8c92898c360b2104e08bd43e401319f</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:13:28</sys_created_on>
-        <sys_id>e0c92898c360b2104e08bd43e40131bf</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:13:28</sys_updated_on>
-        <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
-        <value/>
-    </sys_element_mapping>
     <sys_element_mapping action="INSERT_OR_UPDATE">
         <field>match_fields</field>
         <id>a8c92898c360b2104e08bd43e401319f</id>
@@ -267,11 +248,11 @@
         <field>script</field>
         <id>a8c92898c360b2104e08bd43e401319f</id>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:13:28</sys_created_on>
-        <sys_id>a8c92898c360b2104e08bd43e40131bf</sys_id>
+        <sys_created_on>2025-10-08 12:45:45</sys_created_on>
+        <sys_id>90eeb418c3e0b2104e08bd43e4013105</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:13:28</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:45:45</sys_updated_on>
         <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
         <value/>
     </sys_element_mapping>
@@ -470,7 +451,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>acdaecd8c360b2104e08bd43e401317b</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name/>
         <sys_overrides/>
         <sys_package/>
@@ -478,7 +459,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:15</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:45</sys_updated_on>
         <type>complex_object_collection</type>
     </sys_complex_object>
     <sys_hub_step_ext_output action="INSERT_OR_UPDATE">
@@ -1191,14 +1172,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:13:28</sys_created_on>
         <sys_id>bcc92898c360b2104e08bd43e40131e1</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>17</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:15</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:46</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -1227,17 +1208,17 @@
     <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=34c92898c360b2104e08bd43e40131ee^sys_idNOT IN137ee050c3a0b2104e08bd43e40131c7,5f7ee050c3a0b2104e08bd43e40131c6,977ee050c3a0b2104e08bd43e40131c6"/>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-08 04:13:29">34c92898c360b2104e08bd43e40131ee</action_status_metadata_id>
-        <condition>{{step[772a6312-642b-45f9-8cbe-90cc9af80bc1].__step_status__.message}}LIKEOriginal record not found for sys_id:</condition>
+        <condition>{{step[772a6312-642b-45f9-8cbe-90cc9af80bc1].__step_status__.message}}LIKEAs part of Action table needs to have u_duplicate_of field to flag duplicates</condition>
         <dont_treat_as_error>false</dont_treat_as_error>
-        <label>Original record not found</label>
+        <label>As part of Action table needs to have u_duplicate_of field to flag duplicates</label>
         <order>3</order>
-        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Original record not found"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Table should contain u_duplicate_of field to proceed with this action"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:34:07</sys_created_on>
         <sys_id>137ee050c3a0b2104e08bd43e40131c7</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:07</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:37</sys_updated_on>
     </sys_hub_status_condition>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-08 04:13:29">34c92898c360b2104e08bd43e40131ee</action_status_metadata_id>
@@ -1413,17 +1394,17 @@
     <sys_hub_action_plan action="INSERT_OR_UPDATE">
         <action_id display_value="Identify and Merge Duplicates">b739e818c360b2104e08bd43e4013139</action_id>
         <plan>{"type":"PlanProxy","persistor":{"@class":".ChunkingPlanPersistor","table":"sys_hub_action_plan","id":"39db285cc360b2104e08bd43e4013174","name":"plan","plan_signature":null}}</plan>
-        <snapshot>f18e6450c3a0b2104e08bd43e401318e</snapshot>
+        <snapshot>85408d98c3e0b2104e08bd43e40131a3</snapshot>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:22:33</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>39db285cc360b2104e08bd43e4013174</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_overrides/>
         <sys_scope/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:19</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:49</sys_updated_on>
     </sys_hub_action_plan>
     <sys_hub_action_type_snapshot action="INSERT_OR_UPDATE">
         <access>public</access>
@@ -1562,10 +1543,10 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:22:30</sys_created_on>
         <sys_id>01dbe45cc360b2104e08bd43e40131d2</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:22:31</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:47</sys_updated_on>
     </sys_hub_step_instance>
     <sys_variable_value action="delete_multiple" query="document_key=01dbe45cc360b2104e08bd43e40131d2"/>
     <sys_variable_value action="INSERT_OR_UPDATE">
@@ -1590,11 +1571,12 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:22:31</sys_created_on>
         <sys_id>1ddb285cc360b2104e08bd43e4013107</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:22:31</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:47</sys_updated_on>
         <value>(function execute(inputs, outputs) {&#13;
     try {&#13;
+&#13;
 &#13;
         var tableName = inputs.table_name;&#13;
         var matchFields = inputs.match_fields.split(',').map(function(f) {&#13;
@@ -1621,7 +1603,7 @@
         gr.query();&#13;
 &#13;
         var seen = {};&#13;
-        var mergedPairs = [];&#13;
+        var flaggedPairs = [];&#13;
 &#13;
         while (gr.next()) {&#13;
             var key = matchFields.map(function(field) {&#13;
@@ -1629,50 +1611,30 @@
             }).join('|');&#13;
 &#13;
             if (seen[key]) {&#13;
-                var originalGR = new GlideRecord(tableName);&#13;
-                if (originalGR.get(seen[key])) {&#13;
-                    // Merge logic: prefer latest values&#13;
-                    matchFields.forEach(function(field) {&#13;
-                        var originalVal = originalGR.getValue(field);&#13;
-                        var newVal = gr.getValue(field);&#13;
-                        if (gr.sys_updated_on &gt; originalGR.sys_updated_on) {&#13;
-                            originalGR.setValue(field, newVal);&#13;
-                        }&#13;
-                    });&#13;
-&#13;
-                    originalGR.update();&#13;
-                    mergedPairs.push({ original: seen[key], merged: gr.sys_id.toString() });&#13;
-                    gr.deleteRecord();&#13;
-                } else {&#13;
-                    throw new Error("Original record not found for sys_id: " + seen[key]);&#13;
+                // Flag as duplicate&#13;
+                if (gr.isValidField('u_duplicate_of')) {&#13;
+                    gr.setValue('u_duplicate_of', seen[key]); // Reference to original&#13;
+                }else{&#13;
+                    throw new Error("As part of Action table needs to have u_duplicate_of field to flag duplicates");&#13;
                 }&#13;
+&#13;
+                gr.update();&#13;
+                flaggedPairs.push({ original: seen[key], flagged: gr.sys_id.toString() });&#13;
             } else {&#13;
                 seen[key] = gr.sys_id.toString();&#13;
             }&#13;
         }&#13;
 &#13;
-        outputs.merged_pairs = mergedPairs;&#13;
+        outputs.merged_pairs = flaggedPairs;&#13;
 &#13;
     } catch (err) {&#13;
-        gs.error("Duplicate Merge Error: " + err.message);&#13;
+        gs.error("Duplicate Flagging Error: " + err.message);&#13;
         outputs.error = err.message;&#13;
     }&#13;
 })(inputs, outputs);</value>
         <variable display_value="Script">71aa7f6647032200b4fad7527c9a719b</variable>
     </sys_variable_value>
     <sys_element_mapping action="delete_multiple" query="id=01dbe45cc360b2104e08bd43e40131d2"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>application</field>
-        <id>01dbe45cc360b2104e08bd43e40131d2</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:22:31</sys_created_on>
-        <sys_id>dddb285cc360b2104e08bd43e4013106</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:22:31</sys_updated_on>
-        <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
-        <value/>
-    </sys_element_mapping>
     <sys_element_mapping action="INSERT_OR_UPDATE">
         <field>match_fields</field>
         <id>01dbe45cc360b2104e08bd43e40131d2</id>
@@ -1689,11 +1651,11 @@
         <field>script</field>
         <id>01dbe45cc360b2104e08bd43e40131d2</id>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:22:31</sys_created_on>
-        <sys_id>91db285cc360b2104e08bd43e4013107</sys_id>
+        <sys_created_on>2025-10-08 12:51:47</sys_created_on>
+        <sys_id>85408d98c3e0b2104e08bd43e4013191</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:22:31</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:47</sys_updated_on>
         <table>var__m_sys_flow_step_definition_input_106afb6647032200b4fad7527c9a71e7</table>
         <value/>
     </sys_element_mapping>
@@ -1892,7 +1854,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>cddbe45cc360b2104e08bd43e40131ea</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name/>
         <sys_overrides/>
         <sys_package/>
@@ -1900,7 +1862,7 @@
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:17</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:47</sys_updated_on>
         <type>complex_object_collection</type>
     </sys_complex_object>
     <sys_hub_step_ext_output action="INSERT_OR_UPDATE">
@@ -2439,14 +2401,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-10-08 11:22:32</sys_created_on>
         <sys_id>25db285cc360b2104e08bd43e4013132</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name/>
         <sys_package/>
         <sys_policy/>
         <sys_scope display_value="Action Pack">b812ceb69337a210633378917cba10bc</sys_scope>
         <sys_update_name/>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:18</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:48</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
@@ -2646,21 +2608,7 @@
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2025-10-08 11:22:32</sys_updated_on>
     </sys_hub_action_status_metadata>
-    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=21db285cc360b2104e08bd43e401313f^sys_idNOT IN718e6450c3a0b2104e08bd43e401318e,7d8e6450c3a0b2104e08bd43e401318d,fd8e6450c3a0b2104e08bd43e401318d"/>
-    <sys_hub_status_condition action="INSERT_OR_UPDATE">
-        <action_status_metadata_id display_value="Created 2025-10-08 04:22:32">21db285cc360b2104e08bd43e401313f</action_status_metadata_id>
-        <condition>{{step[772a6312-642b-45f9-8cbe-90cc9af80bc1].__step_status__.message}}LIKEOriginal record not found for sys_id:</condition>
-        <dont_treat_as_error>false</dont_treat_as_error>
-        <label>Original record not found</label>
-        <order>3</order>
-        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Original record not found"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:34:18</sys_created_on>
-        <sys_id>718e6450c3a0b2104e08bd43e401318e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:18</sys_updated_on>
-    </sys_hub_status_condition>
+    <sys_hub_status_condition action="delete_multiple" query="action_status_metadata_id=21db285cc360b2104e08bd43e401313f^sys_idNOT IN09408d98c3e0b2104e08bd43e40131a2,0d408d98c3e0b2104e08bd43e40131a2,89408d98c3e0b2104e08bd43e40131a2"/>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-08 04:22:32">21db285cc360b2104e08bd43e401313f</action_status_metadata_id>
         <condition>{{step[772a6312-642b-45f9-8cbe-90cc9af80bc1].__step_status__.message}}LIKEInvalid table name:</condition>
@@ -2669,11 +2617,25 @@
         <order>1</order>
         <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Provide a valid table name"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:34:18</sys_created_on>
-        <sys_id>7d8e6450c3a0b2104e08bd43e401318d</sys_id>
+        <sys_created_on>2025-10-08 12:51:48</sys_created_on>
+        <sys_id>09408d98c3e0b2104e08bd43e40131a2</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:18</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:48</sys_updated_on>
+    </sys_hub_status_condition>
+    <sys_hub_status_condition action="INSERT_OR_UPDATE">
+        <action_status_metadata_id display_value="Created 2025-10-08 04:22:32">21db285cc360b2104e08bd43e401313f</action_status_metadata_id>
+        <condition>{{step[772a6312-642b-45f9-8cbe-90cc9af80bc1].__step_status__.message}}LIKEAs part of Action table needs to have u_duplicate_of field to flag duplicates</condition>
+        <dont_treat_as_error>false</dont_treat_as_error>
+        <label>As part of Action table needs to have u_duplicate_of field to flag duplicates</label>
+        <order>3</order>
+        <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Table should contain u_duplicate_of field to proceed with this action"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-08 12:51:48</sys_created_on>
+        <sys_id>0d408d98c3e0b2104e08bd43e40131a2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-08 12:51:48</sys_updated_on>
     </sys_hub_status_condition>
     <sys_hub_status_condition action="INSERT_OR_UPDATE">
         <action_status_metadata_id display_value="Created 2025-10-08 04:22:32">21db285cc360b2104e08bd43e401313f</action_status_metadata_id>
@@ -2683,11 +2645,11 @@
         <order>2</order>
         <status>{"version":"1.0","complexObject":{"code":{"$cv":{"$c":"java.lang.String","$v":"1"}},"message":{"$cv":{"$c":"java.lang.String","$v":"Provided match field is invalid"}}},"complexObjectSchema":{"FlowDesigner:FDACTIONSTATUS":{"code":"Integer","code.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"Integer\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"integer\",\"default_value\":\"\",\"label\":\"Code\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"1\",\"max_length\":\"40\"}"},"message":"String","message.$field_facets":{"SimpleMapFacet":"{\"uiTypeLabel\":\"String\",\"read_only\":\"false\",\"hint\":\"\",\"uiType\":\"string\",\"default_value\":\"\",\"label\":\"Message\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"order\":\"2\",\"max_length\":\"4000\"}"}},"FlowDesigner:FDACTIONSTATUS.$type_facets":{"SimpleMapFacet":"{\"default_value\":\"\",\"label\":\"Action Status\",\"action_error_output\":\"true\",\"mandatory\":\"false\",\"uiUniqueId\":\"4adfb7bc-9d67-498d-88d0-8d6c3d584fed\",\"uiTypeLabel\":\"Object\",\"co_type_name\":\"FDACTIONSTATUS\",\"element_mapping_provider\":\"com.glide.flow_design.action.data.FlowDesignVariableMapper\",\"read_only\":\"false\",\"hint\":null,\"uiType\":\"object\",\"order\":\"1\",\"max_length\":\"65000\"}"}},"serializationFormat":"JSON"}</status>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-10-08 11:34:18</sys_created_on>
-        <sys_id>fd8e6450c3a0b2104e08bd43e401318d</sys_id>
+        <sys_created_on>2025-10-08 12:51:48</sys_created_on>
+        <sys_id>89408d98c3e0b2104e08bd43e40131a2</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-10-08 11:34:18</sys_updated_on>
+        <sys_updated_on>2025-10-08 12:51:48</sys_updated_on>
     </sys_hub_status_condition>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_action_input_f8dbe45cc360b2104e08bd43e40131c1^sys_idNOT IN01dbe45cc360b2104e08bd43e40131c9,01dbe45cc360b2104e08bd43e40131cd"/>
     <sys_documentation action="INSERT_OR_UPDATE">
